@@ -10,7 +10,7 @@
       <ul>
         <li v-for="(todo, index) in todos" :key="index">
           {{ todo.text }}
-          <button @click="update(todo)" class="edit">Edit</button>
+          <button @click="todo.edit = !todo.edit" class="edit">Edit</button>
           <button @click="removeTodos(index)" class="rm">Remove</button>
           <input v-if="todo.edit" type="text" @keyup.enter="updateTodos($event, todo)" class="upd-input" placeholder="Edit your Todo here">
         </li>
@@ -32,7 +32,6 @@ export default {
   data() {
     return {
       newTodo: '',
-      flag: 0,  // for counting click of Edit button
     }
   },
   components: {
@@ -58,11 +57,6 @@ export default {
       this.removeTodo(index)
     },
 
-    update(item) {
-      const val = (++this.flag) % 2
-      console.log(val)
-      val ? item.edit = true : item.edit = false
-    },
     updateTodos(e, todo) {
       console.log(todo.id)
       console.log(e.target.value)
@@ -70,7 +64,6 @@ export default {
       todo.text = e.target.value
       todo.edit = false
       this.updateTodo(todo)
-      this.flag = 0
     }
   }
 }
